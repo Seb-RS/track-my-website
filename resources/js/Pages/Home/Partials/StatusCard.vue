@@ -1,5 +1,6 @@
 <template>
-    <div v-for="(web) in webs" :key="web.id" class="w-full bg-neutral-700 rounded-lg p-3 flex-col">
+    <div v-for="(web) in webs" :key="web.id"
+        class="w-full rounded-lg p-3 flex-col transition-all duration-1000 from-[#424242] via-[#4d4d4d] to-[#6b6969] bg-gradient-to-br bg-size-200 bg-pos-0 hover:bg-pos-100">
         <div class="flex justify-between text-sm">
             <p class="text-neutral-50">{{ web.name }}</p>
             <p class="text-neutral-50 flex items-center">
