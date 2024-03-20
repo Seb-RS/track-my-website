@@ -82,23 +82,23 @@ export default {
                 case 200:
                 case 202:
                 case 204:
-                    return { text: 'Disponible', color: 'bg-green-300' };
+                    return { text: 'Disponible', color: 'bg-green-300 hover:bg-green-400' };
                 case 301:
-                    return { text: 'Redirección permanente', color: 'bg-yellow-300' };
+                    return { text: 'Redirección permanente', color: 'bg-yellow-300 hover:bg-yellow-400' };
                 case 302:
-                    return { text: 'Redirección temporal', color: 'bg-yellow-300' };
+                    return { text: 'Redirección temporal', color: 'bg-yellow-300 hover:bg-yellow-400' };
                 case 400:
-                    return { text: 'Solicitud incorrecta', color: 'bg-red-300' };
+                    return { text: 'Solicitud incorrecta', color: 'bg-red-300 hover:bg-red-400' };
                 case 404:
-                    return { text: 'No encontrado', color: 'bg-red-300' };
+                    return { text: 'No encontrado', color: 'bg-red-300 hover:bg-red-400' };
                 case 500:
-                    return { text: 'No disponible', color: 'bg-red-300' };
+                    return { text: 'No disponible', color: 'bg-red-300 hover:bg-red-400' };
                 case 503:
-                    return { text: 'Mantenimiento', color: 'bg-blue-300' };
+                    return { text: 'Mantenimiento', color: 'bg-blue-300 hover:bg-blue-400' };
                 case null:
-                    return { text: 'Sin registrar', color: 'bg-transparent/20' };
+                    return { text: 'Sin registrar', color: 'bg-transparent/20 hover:bg-transparent/30' };
                 default:
-                    return { text: 'Desconocido', color: 'bg-gray-300' };
+                    return { text: 'Desconocido', color: 'bg-gray-300 hover:bg-gray-400' };
             }
         }
     },
