@@ -62,9 +62,11 @@ export default {
         this.$nextTick(() => {
             this.webs.forEach(web => {
                 if (this.$refs[`days-container-${web.id}`] && this.$refs[`days-container-${web.id}`][0]) {
-                    this.$refs[`days-container-${web.id}`][0].addEventListener('scroll', () => {
+                    let container = this.$refs[`days-container-${web.id}`][0];
+                    container.addEventListener('scroll', () => {
                         this.tooltipDayDetails.activeButton = null;
                     });
+                    container.scrollLeft = container.scrollWidth - container.offsetWidth;
                 }
             });
         });
