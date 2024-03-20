@@ -67,7 +67,7 @@
         </div>
         <div class="text-neutral-300 flex justify-between italic text-xs">
             <h2>60 días</h2>
-            <h2>Actualidad</h2>
+            <h2>Hoy</h2>
         </div>
     </div>
 </template>
