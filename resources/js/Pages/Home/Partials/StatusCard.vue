@@ -17,7 +17,7 @@
                     @mouseleave="tooltipDayDetails.activeButton = null;" :ref="`day-button-${web.id}-${index}`"
                     :class="[{ 'bg-transparent/15': day.status_code === null }, statusToValue(day.status_code).color, day.status_code === null ? 'cursor-default' : 'cursor-pointer']">
                     <transition name="fade">
-                        <span v-if="index === tooltipDayDetails.activeButton && dayTemp"
+                        <span v-if="index === tooltipDayDetails.activeButton && dayTemp.web_index === web.id"
                             :style="{ top: tooltipDayDetails.position.top + 'px', left: tooltipDayDetails.position.left + 'px' }"
                             class="flex flex-col fixed shadow-lg text-xs bg-neutral-600 text-white px-3 py-[6px] mx-auto w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-neutral-600 before:absolute before:z-[-1] before:-bottom-1 before:left-0  before:right-0 before:mx-auto">
                             <span class="font-semibold">
@@ -89,7 +89,7 @@ export default {
             const rect = element.getBoundingClientRect();
             this.tooltipDayDetails.activeButton = index;
             this.dayTemp = day;
-
+            this.dayTemp.web_index = web_index;
             this.$nextTick(() => {
                 const child = element.children[0];
                 this.tooltipDayDetails.position = {
