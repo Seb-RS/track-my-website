@@ -11,7 +11,7 @@
         </div>
         <div class="flex overflow-x-auto py-1">
             <div class="flex min-w-[528px] justify-between">
-                <button v-for="(day, index) in web.days" :key="index" class="w-[6.8px] h-[35px] rounded-lg"
+                <button v-for="(day, index) in web.days" :key="index" class="w-[6.8px] h-[35px] rounded-lg duration-300"
                     @mouseover="handleMouseOver(web.id, index, day)"
                     @mouseleave="tooltipDayDetails.activeButton = null;" :disabled="day.status_code === null"
                     :ref="`day-button-${web.id}-${index}`"
