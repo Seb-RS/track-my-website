@@ -32,4 +32,4 @@ Schedule::call(function () {
             'status_code' => $statusCode
         ]);
     }
-})->everyMinute();
+})->everyThirtyMinutes();
