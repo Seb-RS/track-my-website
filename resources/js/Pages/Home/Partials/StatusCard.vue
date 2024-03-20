@@ -58,6 +58,24 @@ export default {
             dayTemp: null,
         }
     },
+    created() {
+        this.$nextTick(() => {
+            this.webs.forEach(web => {
+                if (this.$refs[`days-container-${web.id}`] && this.$refs[`days-container-${web.id}`][0]) {
+                    this.$refs[`days-container-${web.id}`][0].addEventListener('scroll', () => {
+                        this.tooltipDayDetails.activeButton = null;
+                    });
+                }
+            });
+        });
+    },
+    unmounted() {
+        this.webs.forEach(web => {
+            if (this.$refs[`days-container-${web.id}`] && this.$refs[`days-container-${web.id}`][0]) {
+                this.$refs[`days-container-${web.id}`][0].removeEventListener('scroll');
+            }
+        });
+    },
     components: {
         OkCircleFilled
     },
