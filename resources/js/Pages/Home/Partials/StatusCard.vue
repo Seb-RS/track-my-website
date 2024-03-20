@@ -12,18 +12,19 @@
         <div class="flex overflow-x-auto py-1">
             <div class="flex min-w-[528px] justify-between">
                 <button v-for="(day, index) in web.days" :key="index" class="w-[6.8px] h-[35px] rounded-lg"
-                    @mouseover="handleMouseOver(web.id, index)" @mouseleave="tooltipDayDetails.activeButton = null;"
-                    :disabled="day.status_code === null"
+                    @mouseover="handleMouseOver(web.id, index, day)"
+                    @mouseleave="tooltipDayDetails.activeButton = null;" :disabled="day.status_code === null"
                     :ref="`day-button-${web.id}-${index}`"
-                    :class="[{ 'bg-transparent/15': day.status_code === null }, { 'bg-green-300': day.status_code == '200' }]">
-                    <span v-if="index === tooltipDayDetails.activeButton"
+                    :class="[{ 'bg-transparent/15': day.status_code === null }, statusToValue(day.status_code).color]">
+
+                    <span v-if="index === tooltipDayDetails.activeButton && dayTemp"
                         :style="{ top: tooltipDayDetails.position.top + 'px', left: tooltipDayDetails.position.left + 'px' }"
-                        class="flex flex-col fixed shadow-lg text-xs bg-neutral-600 text-white px-3 py-[6px] mx-auto w-[100px] rounded before:w-4 before:h-4 before:rotate-45 before:bg-neutral-600 before:absolute before:z-[-1] before:-bottom-1 before:left-0  before:right-0 before:mx-auto">
+                        class="flex flex-col fixed shadow-lg text-xs bg-neutral-600 text-white px-3 py-[6px] mx-auto w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-neutral-600 before:absolute before:z-[-1] before:-bottom-1 before:left-0  before:right-0 before:mx-auto">
                         <span class="font-semibold">
-                            {{ day.status_code ? statusToText(day.status_code) : 'Sin registrar' }}
+                            {{ statusToValue(dayTemp.status_code).text }}
                         </span>
                         <span class="text-neutral-300">
-                            {{ day.date }}
+                            {{ dayTemp.date }}
                         </span>
                     </span>
                 </button>
@@ -54,22 +55,27 @@ export default {
                     top: 0, left: 0
                 }
             },
+            dayTemp: null,
         }
     },
     components: {
         OkCircleFilled
     },
     methods: {
-        handleMouseOver(web_index, index) {
+        handleMouseOver(web_index, index, day) {
             const ref = this.$refs[`day-button-${web_index}-${index}`];
             const element = ref[0];
             const rect = element.getBoundingClientRect();
-            const child = element.children[0];
-            this.tooltipDayDetails.position = {
-                top: rect.top - 55,
-                left: rect.left - (100 / 2) + 3.5
-            };
             this.tooltipDayDetails.activeButton = index;
+            this.dayTemp = day;
+
+            this.$nextTick(() => {
+                const child = element.children[0];
+                this.tooltipDayDetails.position = {
+                    top: rect.top - 55,
+                    left: rect.left - (child.offsetWidth / 2) + 3.5
+                };
+            });
         },
         statusToText(status_code) {
             if (status_code == '200') {
