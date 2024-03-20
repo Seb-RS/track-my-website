@@ -9,13 +9,12 @@
                 </span>
             </p>
         </div>
-        <div class="flex overflow-x-auto py-1">
+        <div class="flex overflow-x-auto py-1" :ref="`days-container-${web.id}`">
             <div class="flex min-w-[528px] justify-between">
                 <button v-for="(day, index) in web.days" :key="index" class="w-[6.8px] h-[35px] rounded-lg duration-300"
-                    @mouseover="handleMouseOver(web.id, index, day)"
-                    @mouseleave="tooltipDayDetails.activeButton = null;" :disabled="day.status_code === null"
-                    :ref="`day-button-${web.id}-${index}`"
-                    :class="[{ 'bg-transparent/15': day.status_code === null }, statusToValue(day.status_code).color]">
+                    @mouseover="handleMouseOver(web.id, index, day)" @mousedown="handleMouseOver(web.id, index, day)"
+                    @mouseleave="tooltipDayDetails.activeButton = null;" :ref="`day-button-${web.id}-${index}`"
+                    :class="[{ 'bg-transparent/15': day.status_code === null }, statusToValue(day.status_code).color, day.status_code === null ? 'cursor-default' : 'cursor-pointer']">
                     <transition name="fade">
                         <span v-if="index === tooltipDayDetails.activeButton && dayTemp"
                             :style="{ top: tooltipDayDetails.position.top + 'px', left: tooltipDayDetails.position.left + 'px' }"
