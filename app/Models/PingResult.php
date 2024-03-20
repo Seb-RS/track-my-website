@@ -10,7 +10,7 @@ class PingResult extends Model
     use HasFactory;
 
     protected $fillable = [
-        'url',
+        'web_id',
         'status_code',
         'created_at'
     ];

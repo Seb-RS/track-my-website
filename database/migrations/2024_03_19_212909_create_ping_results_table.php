@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ping_results', function (Blueprint $table) {
             $table->id();
-            $table->string('url');
+            $table->integer('web_id');
             $table->integer('status_code');
             $table->timestamps();
         });
