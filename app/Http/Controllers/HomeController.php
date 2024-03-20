@@ -24,17 +24,16 @@ class HomeController extends Controller
                 ->get();
 
             for ($i = 0; $i < 60; $i++) {
-                $pingResults = PingResult::where('web_id', $page['id'])
-                    ->whereDate('created_at', Carbon::now()->subDays($i))
-                    ->get();
+                $pingResults = $statuses->filter(function ($result) use ($i) {
+                    return $result->created_at->toDateString() === Carbon::now()->subDays($i)->toDateString();
+                });
 
                 if ($pingResults->isNotEmpty()) {
                     $average = $pingResults->avg('status_code');
-                    $date = $pingResults->first()->created_at->format('d-m-Y');
-
+                    $date = Carbon::parse($pingResults->first()->created_at)->setTimezone('America/Santiago')->format('d-m-Y');
                     $days[] = ['status_code' => $average, 'date' => $date];
                 } else {
-                    $date = Carbon::now()->subDays($i)->format('d-m-Y');
+                    $date = Carbon::now()->subDays($i)->setTimezone('America/Santiago')->format('d-m-Y');
                     $days[] = ['status_code' => null, 'date' => $date];
                 }
             }
