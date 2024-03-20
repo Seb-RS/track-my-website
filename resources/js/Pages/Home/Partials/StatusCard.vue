@@ -16,17 +16,18 @@
                     @mouseleave="tooltipDayDetails.activeButton = null;" :disabled="day.status_code === null"
                     :ref="`day-button-${web.id}-${index}`"
                     :class="[{ 'bg-transparent/15': day.status_code === null }, statusToValue(day.status_code).color]">
-
-                    <span v-if="index === tooltipDayDetails.activeButton && dayTemp"
-                        :style="{ top: tooltipDayDetails.position.top + 'px', left: tooltipDayDetails.position.left + 'px' }"
-                        class="flex flex-col fixed shadow-lg text-xs bg-neutral-600 text-white px-3 py-[6px] mx-auto w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-neutral-600 before:absolute before:z-[-1] before:-bottom-1 before:left-0  before:right-0 before:mx-auto">
-                        <span class="font-semibold">
-                            {{ statusToValue(dayTemp.status_code).text }}
+                    <transition name="fade">
+                        <span v-if="index === tooltipDayDetails.activeButton && dayTemp"
+                            :style="{ top: tooltipDayDetails.position.top + 'px', left: tooltipDayDetails.position.left + 'px' }"
+                            class="flex flex-col fixed shadow-lg text-xs bg-neutral-600 text-white px-3 py-[6px] mx-auto w-max rounded before:w-4 before:h-4 before:rotate-45 before:bg-neutral-600 before:absolute before:z-[-1] before:-bottom-1 before:left-0  before:right-0 before:mx-auto">
+                            <span class="font-semibold">
+                                {{ statusToValue(dayTemp.status_code).text }}
+                            </span>
+                            <span class="text-neutral-300">
+                                {{ dayTemp.date }}
+                            </span>
                         </span>
-                        <span class="text-neutral-300">
-                            {{ dayTemp.date }}
-                        </span>
-                    </span>
+                    </transition>
                 </button>
             </div>
         </div>
@@ -115,5 +116,14 @@ export default {
 ::-webkit-scrollbar-thumb {
     background-color: #848484;
     border-radius: 5px;
+}
+
+.fade-enter-active {
+    transition: opacity 300ms ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>
