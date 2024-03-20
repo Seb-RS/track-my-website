@@ -11,15 +11,25 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::call(function () {
-    $urls = ['https://sebdev.cl', 'https://lab.sebdev.cl'];
+    $json = file_get_contents(storage_path('web_list.json'));
 
-    foreach ($urls as $url) {
-        $response = Http::get($url);
+    $data = json_decode($json, true);
+
+    $pages = [];
+
+    foreach ($data as $item) {
+        if (isset($item['url']) && isset($item['name']) && isset($item['id'])) {
+            $pages[] = $item;
+        }
+    }
+
+    foreach ($pages as $page) {
+        $response = Http::get($page['url']);
         $statusCode = $response->status();
 
         PingResult::create([
-            'url' => $url,
+            'web_id' => $page['id'],
             'status_code' => $statusCode
         ]);
     }
-})->everyFiveMinutes();
+})->everyMinute();
