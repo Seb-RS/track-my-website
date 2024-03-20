@@ -77,11 +77,29 @@ export default {
                 };
             });
         },
-        statusToText(status_code) {
-            if (status_code == '200') {
-                return 'Disponible';
+        statusToValue(status_code) {
+            switch (status_code) {
+                case 200:
+                case 202:
+                case 204:
+                    return { text: 'Disponible', color: 'bg-green-300' };
+                case 301:
+                    return { text: 'Redirección permanente', color: 'bg-yellow-300' };
+                case 302:
+                    return { text: 'Redirección temporal', color: 'bg-yellow-300' };
+                case 400:
+                    return { text: 'Solicitud incorrecta', color: 'bg-red-300' };
+                case 404:
+                    return { text: 'No encontrado', color: 'bg-red-300' };
+                case 500:
+                    return { text: 'No disponible', color: 'bg-red-300' };
+                case 503:
+                    return { text: 'Mantenimiento', color: 'bg-blue-300' };
+                case null:
+                    return { text: 'Sin registrar', color: 'bg-transparent/20' };
+                default:
+                    return { text: 'Desconocido', color: 'bg-gray-300' };
             }
-            return 'No disponible';
         }
     },
 }
