@@ -2,7 +2,11 @@
     <div v-for="(web) in webs" :key="web.id"
         class="w-full rounded-lg p-3 flex-col transition-all duration-1000 from-[#424242] via-[#4d4d4d] to-[#6b6969] bg-gradient-to-br bg-size-200 bg-pos-0 hover:bg-pos-100">
         <div class="flex justify-between text-sm">
-            <p class="text-neutral-50">{{ web.name }}</p>
+            <p class="text-neutral-50">{{ web.name }}
+                <span class="text-xs font-mono" :class="pingToColor(pingClientToServer[web.id])">
+                    {{ pingClientToServer[web.id] ? pingClientToServer[web.id].response_time : '' }}
+                </span>
+            </p>
             <p class="text-neutral-50 flex items-center">
                 Disponible
                 <span class="ml-1 text-green-200">
@@ -57,6 +61,7 @@ export default {
                 }
             },
             dayTemp: null,
+            pingClientToServer: []
         }
     },
     created() {
@@ -71,6 +76,11 @@ export default {
                 }
             });
         });
+
+        this.pingIterator();
+        setInterval(() => {
+            this.pingIterator();
+        }, 30000);
     },
     unmounted() {
         this.webs.forEach(web => {
@@ -120,6 +130,34 @@ export default {
                     return { text: 'Sin registrar', color: 'bg-transparent/20 hover:bg-transparent/30' };
                 default:
                     return { text: 'Desconocido', color: 'bg-gray-300 hover:bg-gray-400' };
+            }
+        },
+        pingIterator() {
+            this.webs.forEach(web => {
+                if (web)
+                    this.getPing(web);
+            });
+        },
+        getPing(web) {
+            const startTime = performance.now();
+            fetch(web.url, { mode: 'no-cors' })
+                .then(() => {
+                    const endTime = performance.now();
+                    const elapsedTime = endTime - startTime;
+                    this.pingClientToServer[web.id] = {
+                        response_time: elapsedTime
+                    };
+                })
+        },
+        pingToColor(ping) {
+            if (ping) {
+                if (ping.response_time < 100) {
+                    return 'text-green-300';
+                } else if (ping.response_time < 200) {
+                    return 'text-yellow-300';
+                } else {
+                    return 'text-red-300';
+                }
             }
         }
     },
