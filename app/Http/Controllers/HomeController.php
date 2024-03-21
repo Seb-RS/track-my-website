@@ -43,6 +43,7 @@ class HomeController extends Controller
             $results[] = [
                 'id' => $page['id'],
                 'name' => $page['name'],
+                'url' => $page['url'],
                 'days' => $days,
             ];
         }
